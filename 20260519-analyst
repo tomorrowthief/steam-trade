@@ -1,0 +1,46 @@
+# 项目分析报告 — steam-trade
+
+> 分析日期: 20260519
+> 项目类型: Node.js 前端/全栈项目
+
+## 一、技术栈
+
+**语言**: JavaScript
+**包管理器**: pnpm
+
+## 二、基础设施
+
+无特殊基础设施
+
+## 三、目录结构
+
+```
+backend
+frontend
+node_modules
+```
+
+## 四、核心功能概述
+
+**README 摘要**:
+
+> # Steam Trade
+> 
+> CS2 饰品交易平台（MVP Demo），实现完整的 Steam TradeOffer 链路：登录 → 浏览 Bot 库存 → 购买 → 自动发送 Trade Offer → 订单状态追踪。
+> 
+> ## Tech Stack
+> 
+> | 层 | 技术 |
+> |---|---|
+> | 前端 | React 18 + Vite + TypeScript + Ant Design 5 |
+> | 后端 | Express + Socket.IO + TypeScript |
+> | Steam | steam-user, steam-tradeoffer-manager, steamcommunity, steam-totp |
+> | 认证 | Passport (Steam OpenID) + express-session |
+> | 存储 | JSON 文件（MVP 阶段，无数据库） |
+> 
+> ## Quick Start
+
+## 五、主要依赖
+
+---
+*此文件由自动化分析脚本生成*
