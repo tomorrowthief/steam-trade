@@ -3,6 +3,7 @@ import { Layout, Row, Col, Select, Input, Button, Tabs } from 'antd'
 import Navbar from '../components/Navbar'
 import ItemCard from '../components/ItemCard'
 import { categories, items } from '../data/mockData'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 const { Content } = Layout
 const { Search } = Input
@@ -24,6 +25,7 @@ const weaponIcons: Record<string, string> = {
 export default function MarketPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('')
   const [tradeTab, setTradeTab] = useState<'sell' | 'rent'>('sell')
+  const isMobile = useIsMobile()
 
   const filteredItems = selectedCategory
     ? items.filter(() => true) // mock: show all, in real app filter by category
@@ -32,14 +34,14 @@ export default function MarketPage() {
   return (
     <Layout style={{ minHeight: '100vh', background: '#f5f5f5' }}>
       <Navbar />
-      <Content style={{ padding: 24 }}>
+      <Content style={{ padding: isMobile ? 12 : 24 }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           {/* Category Icons */}
           <div
             style={{
               background: '#fff',
               borderRadius: 12,
-              padding: 24,
+              padding: isMobile ? 16 : 24,
               marginBottom: 16,
               boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
             }}
@@ -70,36 +72,35 @@ export default function MarketPage() {
             </Row>
 
             {/* Filters */}
-            <Row gutter={12} align="middle">
-              <Col>
-                <Select placeholder="品质" style={{ width: 100 }} allowClear>
+            <Row gutter={[12, 12]} align="middle">
+              <Col xs={12} sm={8} md={4}>
+                <Select placeholder="品质" style={{ width: '100%' }} allowClear>
                   <Select.Option value="new">崭新出厂</Select.Option>
                   <Select.Option value="minimal">略有磨损</Select.Option>
                   <Select.Option value="field">久经沙场</Select.Option>
                 </Select>
               </Col>
-              <Col>
-                <Select placeholder="类别" style={{ width: 100 }} allowClear />
+              <Col xs={12} sm={8} md={4}>
+                <Select placeholder="类别" style={{ width: '100%' }} allowClear />
               </Col>
-              <Col>
-                <Select placeholder="外观" style={{ width: 100 }} allowClear />
+              <Col xs={12} sm={8} md={4}>
+                <Select placeholder="外观" style={{ width: '100%' }} allowClear />
               </Col>
-              <Col>
-                <Select placeholder="颜色" style={{ width: 100 }} allowClear />
+              <Col xs={12} sm={8} md={4}>
+                <Select placeholder="颜色" style={{ width: '100%' }} allowClear />
               </Col>
-              <Col>
-                <Select placeholder="收藏品" style={{ width: 120 }} allowClear />
+              <Col xs={12} sm={8} md={4}>
+                <Select placeholder="收藏品" style={{ width: '100%' }} allowClear />
               </Col>
-              <Col>
-                <Select placeholder="印花搜枪" style={{ width: 120 }} allowClear />
+              <Col xs={12} sm={8} md={4}>
+                <Select placeholder="印花搜枪" style={{ width: '100%' }} allowClear />
               </Col>
-              <Col flex="auto">
+              <Col xs={24} sm={16} md={8} flex="auto">
                 <Search
                   placeholder="请输入物品名称"
                   allowClear
                   enterButton="搜索"
                   size="middle"
-                  style={{ maxWidth: 300 }}
                   onSearch={() => {}}
                 />
               </Col>
@@ -111,12 +112,12 @@ export default function MarketPage() {
             style={{
               background: '#fff',
               borderRadius: 12,
-              padding: 24,
+              padding: isMobile ? 16 : 24,
               boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
             }}
           >
-            <Row justify="space-between" align="middle" style={{ marginBottom: 20 }}>
-              <Col>
+            {isMobile ? (
+              <>
                 <Tabs
                   activeKey={tradeTab}
                   onChange={(key) => setTradeTab(key as 'sell' | 'rent')}
@@ -125,26 +126,54 @@ export default function MarketPage() {
                     { key: 'rent', label: '租赁' },
                   ]}
                 />
-              </Col>
-              <Col>
-                <Row gutter={8} align="middle">
-                  <Col>
-                    <Input placeholder="¥ 最低价" style={{ width: 100 }} />
+                <Row gutter={[8, 8]} style={{ marginBottom: 20 }}>
+                  <Col xs={12}>
+                    <Input placeholder="¥ 最低价" style={{ width: '100%' }} />
                   </Col>
-                  <Col>-</Col>
-                  <Col>
-                    <Input placeholder="¥ 最高价" style={{ width: 100 }} />
+                  <Col xs={12}>
+                    <Input placeholder="¥ 最高价" style={{ width: '100%' }} />
                   </Col>
-                  <Col>
-                    <Select placeholder="排序" style={{ width: 100 }} allowClear>
+                  <Col xs={24}>
+                    <Select placeholder="排序" style={{ width: '100%' }} allowClear>
                       <Select.Option value="price-asc">价格从低到高</Select.Option>
                       <Select.Option value="price-desc">价格从高到低</Select.Option>
                       <Select.Option value="newest">最新上架</Select.Option>
                     </Select>
                   </Col>
                 </Row>
-              </Col>
-            </Row>
+              </>
+            ) : (
+              <Row justify="space-between" align="middle" style={{ marginBottom: 20 }}>
+                <Col>
+                  <Tabs
+                    activeKey={tradeTab}
+                    onChange={(key) => setTradeTab(key as 'sell' | 'rent')}
+                    items={[
+                      { key: 'sell', label: '出售' },
+                      { key: 'rent', label: '租赁' },
+                    ]}
+                  />
+                </Col>
+                <Col>
+                  <Row gutter={8} align="middle">
+                    <Col>
+                      <Input placeholder="¥ 最低价" style={{ width: 100 }} />
+                    </Col>
+                    <Col>-</Col>
+                    <Col>
+                      <Input placeholder="¥ 最高价" style={{ width: 100 }} />
+                    </Col>
+                    <Col>
+                      <Select placeholder="排序" style={{ width: 100 }} allowClear>
+                        <Select.Option value="price-asc">价格从低到高</Select.Option>
+                        <Select.Option value="price-desc">价格从高到低</Select.Option>
+                        <Select.Option value="newest">最新上架</Select.Option>
+                      </Select>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            )}
 
             {/* Item Grid */}
             <Row gutter={[16, 16]}>

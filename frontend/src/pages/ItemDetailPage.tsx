@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { Layout, Row, Col, Button, Tag, Typography, Divider, Descriptions, Breadcrumb, message } from 'antd'
 import Navbar from '../components/Navbar'
 import { getItemById, items } from '../data/mockData'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 const { Content } = Layout
 const { Title, Text } = Typography
@@ -13,6 +14,7 @@ export default function ItemDetailPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const [item, setItem] = useState<ReturnType<typeof getItemById>>(undefined)
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     if (id) {
@@ -42,7 +44,7 @@ export default function ItemDetailPage() {
   return (
     <Layout style={{ minHeight: '100vh', background: '#f5f5f5' }}>
       <Navbar />
-      <Content style={{ padding: 24 }}>
+      <Content style={{ padding: isMobile ? 12 : 24 }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           {/* Breadcrumb */}
           <Breadcrumb
@@ -59,18 +61,18 @@ export default function ItemDetailPage() {
             style={{
               background: '#fff',
               borderRadius: 12,
-              padding: 32,
+              padding: isMobile ? 16 : 32,
               boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
             }}
           >
-            <Row gutter={48}>
+            <Row gutter={isMobile ? 16 : 48}>
               {/* Left: Item Image */}
               <Col xs={24} lg={10}>
                 <div
                   style={{
                     background: '#f5f5f5',
                     borderRadius: 8,
-                    height: 360,
+                    height: isMobile ? 240 : 360,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -79,7 +81,7 @@ export default function ItemDetailPage() {
                   <img
                     src={`${STEAM_CDN}${item.iconUrl}`}
                     alt={item.name}
-                    style={{ maxWidth: '100%', maxHeight: 300, objectFit: 'contain' }}
+                    style={{ maxWidth: '100%', maxHeight: isMobile ? 200 : 300, objectFit: 'contain' }}
                     onError={(e) => {
                       (e.target as HTMLImageElement).style.display = 'none'
                     }}
@@ -104,7 +106,7 @@ export default function ItemDetailPage() {
                 {/* Price */}
                 <div style={{ marginBottom: 24 }}>
                   <Text type="secondary">价格</Text>
-                  <div style={{ fontSize: 36, fontWeight: 700, color: '#e74c3c', marginTop: 8 }}>
+                  <div style={{ fontSize: isMobile ? 28 : 36, fontWeight: 700, color: '#e74c3c', marginTop: 8 }}>
                     ¥{item.price}
                   </div>
                 </div>
@@ -164,18 +166,23 @@ export default function ItemDetailPage() {
 
                 {/* Action Buttons */}
                 <Row gutter={16}>
-                  <Col>
+                  <Col xs={24} sm={12}>
                     <Button
                       type="primary"
                       size="large"
-                      style={{ padding: '0 40px', height: 48, fontSize: 16 }}
+                      block={isMobile}
+                      style={{ padding: isMobile ? undefined : '0 40px', height: 48, fontSize: 16 }}
                       onClick={handleBuy}
                     >
                       立即购买
                     </Button>
                   </Col>
-                  <Col>
-                    <Button size="large" style={{ height: 48, padding: '0 24px' }}>
+                  <Col xs={24} sm={12} style={{ marginTop: isMobile ? 8 : 0 }}>
+                    <Button
+                      size="large"
+                      block={isMobile}
+                      style={{ height: 48, padding: isMobile ? undefined : '0 24px' }}
+                    >
                       加入收藏
                     </Button>
                   </Col>
@@ -186,7 +193,7 @@ export default function ItemDetailPage() {
             {/* Item Properties */}
             <Divider />
             <Title level={4}>饰品属性</Title>
-            <Descriptions bordered column={2}>
+            <Descriptions bordered column={isMobile ? 1 : 2}>
               <Descriptions.Item label="物品名称">{item.name}</Descriptions.Item>
               <Descriptions.Item label="品质">{item.quality}</Descriptions.Item>
               <Descriptions.Item label="稀有度">{item.rarity}</Descriptions.Item>

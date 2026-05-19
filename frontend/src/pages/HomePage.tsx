@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import ItemCard from '../components/ItemCard'
 import { freeRentItems, items } from '../data/mockData'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 const { Content } = Layout
 const { Title, Text } = Typography
 
 export default function HomePage() {
   const navigate = useNavigate()
+  const isMobile = useIsMobile()
 
   return (
     <Layout style={{ minHeight: '100vh', background: '#f5f5f5' }}>
@@ -18,36 +20,36 @@ export default function HomePage() {
         <div
           style={{
             background: 'linear-gradient(135deg, #4a7cf7 0%, #2563eb 50%, #1d4ed8 100%)',
-            padding: '60px 24px',
+            padding: isMobile ? '30px 16px' : '60px 24px',
             position: 'relative',
             overflow: 'hidden',
           }}
         >
           <Row justify="center" align="middle" style={{ maxWidth: 1200, margin: '0 auto' }}>
             <Col xs={24} lg={14}>
-              <Text style={{ color: 'rgba(255,255,255,0.8)', fontSize: 24, fontWeight: 500 }}>
+              <Text style={{ color: 'rgba(255,255,255,0.8)', fontSize: isMobile ? 16 : 24, fontWeight: 500 }}>
                 文思有品APP
               </Text>
-              <Title level={1} style={{ color: '#fff', margin: '16px 0', fontSize: 52, fontWeight: 800 }}>
+              <Title level={1} style={{ color: '#fff', margin: isMobile ? '8px 0' : '16px 0', fontSize: isMobile ? 28 : 52, fontWeight: 800 }}>
                 周周0元免费租
               </Title>
-              <Title level={1} style={{ color: '#fff', margin: '0 0 32px', fontSize: 52, fontWeight: 800 }}>
+              <Title level={1} style={{ color: '#fff', margin: isMobile ? '0 0 16px' : '0 0 32px', fontSize: isMobile ? 28 : 52, fontWeight: 800 }}>
                 百万饰品官方补贴
               </Title>
             </Col>
             <Col xs={24} lg={10} style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 180, opacity: 0.3, color: '#fff' }}>🎁</div>
+              <div style={{ fontSize: isMobile ? 80 : 180, opacity: 0.3, color: '#fff' }}>🎁</div>
             </Col>
           </Row>
         </div>
 
         {/* Free Rent Section */}
-        <div style={{ maxWidth: 1200, margin: '-40px auto 0', padding: '0 24px', position: 'relative', zIndex: 1 }}>
+        <div style={{ maxWidth: 1200, margin: isMobile ? '-20px auto 0' : '-40px auto 0', padding: isMobile ? '0 12px' : '0 24px', position: 'relative', zIndex: 1 }}>
           <div
             style={{
               background: '#fff',
               borderRadius: 12,
-              padding: 24,
+              padding: isMobile ? 16 : 24,
               boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
             }}
           >
@@ -88,7 +90,7 @@ export default function HomePage() {
         </div>
 
         {/* Buy Items Section */}
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '32px 24px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '20px 12px' : '32px 24px' }}>
           <Row align="middle" style={{ marginBottom: 20 }}>
             <Col flex="auto">
               <Title level={3} style={{ margin: 0 }}>买饰品</Title>

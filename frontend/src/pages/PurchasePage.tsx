@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { Layout, Row, Col, Card, Button, Radio, Typography, Divider, message, Steps } from 'antd'
 import Navbar from '../components/Navbar'
 import { getItemById, items } from '../data/mockData'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 const { Content } = Layout
 const { Title, Text } = Typography
@@ -15,6 +16,7 @@ export default function PurchasePage() {
   const [item, setItem] = useState<ReturnType<typeof getItemById>>(undefined)
   const [tradeMethod, setTradeMethod] = useState('steam')
   const [currentStep, setCurrentStep] = useState(0)
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     if (id) {
@@ -49,7 +51,7 @@ export default function PurchasePage() {
   return (
     <Layout style={{ minHeight: '100vh', background: '#f5f5f5' }}>
       <Navbar />
-      <Content style={{ padding: 24 }}>
+      <Content style={{ padding: isMobile ? 12 : 24 }}>
         <div style={{ maxWidth: 800, margin: '0 auto' }}>
           <Title level={3} style={{ marginBottom: 24 }}>确认购买</Title>
 
@@ -57,6 +59,7 @@ export default function PurchasePage() {
           <div style={{ background: '#fff', borderRadius: 12, padding: 24, marginBottom: 24 }}>
             <Steps
               current={currentStep}
+              direction={isMobile ? 'vertical' : 'horizontal'}
               items={[
                 { title: '确认订单' },
                 { title: '提交中' },
